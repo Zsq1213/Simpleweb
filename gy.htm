@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<script language="JavaScript" type="text/JavaScript">
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+</script>
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+
+function MM_showHideLayers() { //v6.0
+  var i,p,v,obj,args=MM_showHideLayers.arguments;
+  for (i=0; i<(args.length-2); i+=3) if ((obj=MM_findObj(args[i]))!=null) { v=args[i+2];
+    if (obj.style) { obj=obj.style; v=(v=='show')?'visible':(v=='hide')?'hidden':v; }
+    obj.visibility=v; }
+}
+
+function MM_timelineGoto(tmLnName, fNew, numGotos) { //v2.0
+  //Copyright 1997, 2000 Macromedia, Inc. All rights reserved.
+  var i,j,tmLn,props,keyFrm,sprite,numKeyFr,firstKeyFr,lastKeyFr,propNum,theObj;
+  if (document.MM_Time == null) MM_initTimelines(); //if *very* 1st time
+  tmLn = document.MM_Time[tmLnName];
+  if (numGotos != null)
+    if (tmLn.gotoCount == null) tmLn.gotoCount = 1;
+    else if (tmLn.gotoCount++ >= numGotos) {tmLn.gotoCount=0; return}
+  jmpFwd = (fNew > tmLn.curFrame);
+  for (i = 0; i < tmLn.length; i++) {
+    sprite = (jmpFwd)? tmLn[i] : tmLn[(tmLn.length-1)-i]; //count bkwds if jumping back
+    if (sprite.charAt(0) == "s") {
+      numKeyFr = sprite.keyFrames.length;
+      firstKeyFr = sprite.keyFrames[0];
+      lastKeyFr = sprite.keyFrames[numKeyFr - 1];
+      if ((jmpFwd && fNew<firstKeyFr) || (!jmpFwd && lastKeyFr<fNew)) continue; //skip if untouchd
+      for (keyFrm=1; keyFrm<numKeyFr && fNew>=sprite.keyFrames[keyFrm]; keyFrm++);
+      for (j=0; j<sprite.values.length; j++) {
+        props = sprite.values[j];
+        if (numKeyFr == props.length) propNum = keyFrm-1 //keyframes only
+        else propNum = Math.min(Math.max(0,fNew-firstKeyFr),props.length-1); //or keep in legal range
+        if (sprite.obj != null) {
+          if (props.prop2 == null) sprite.obj[props.prop] = props[propNum];
+          else        sprite.obj[props.prop2][props.prop] = props[propNum];
+      } }
+    } else if (sprite.charAt(0)=='b' && fNew == sprite.frame) eval(sprite.value);
+  }
+  tmLn.curFrame = fNew;
+  if (tmLn.ID == 0) eval('MM_timelinePlay(tmLnName)');
+}
+
+function MM_timelinePlay(tmLnName, myID) { //v1.2
+  //Copyright 1997, 2000 Macromedia, Inc. All rights reserved.
+  var i,j,tmLn,props,keyFrm,sprite,numKeyFr,firstKeyFr,propNum,theObj,firstTime=false;
+  if (document.MM_Time == null) MM_initTimelines(); //if *very* 1st time
+  tmLn = document.MM_Time[tmLnName];
+  if (myID == null) { myID = ++tmLn.ID; firstTime=true;}//if new call, incr ID
+  if (myID == tmLn.ID) { //if Im newest
+    setTimeout('MM_timelinePlay("'+tmLnName+'",'+myID+')',tmLn.delay);
+    fNew = ++tmLn.curFrame;
+    for (i=0; i<tmLn.length; i++) {
+      sprite = tmLn[i];
+      if (sprite.charAt(0) == 's') {
+        if (sprite.obj) {
+          numKeyFr = sprite.keyFrames.length; firstKeyFr = sprite.keyFrames[0];
+          if (fNew >= firstKeyFr && fNew <= sprite.keyFrames[numKeyFr-1]) {//in range
+            keyFrm=1;
+            for (j=0; j<sprite.values.length; j++) {
+              props = sprite.values[j]; 
+              if (numKeyFr != props.length) {
+                if (props.prop2 == null) sprite.obj[props.prop] = props[fNew-firstKeyFr];
+                else        sprite.obj[props.prop2][props.prop] = props[fNew-firstKeyFr];
+              } else {
+                while (keyFrm<numKeyFr && fNew>=sprite.keyFrames[keyFrm]) keyFrm++;
+                if (firstTime || fNew==sprite.keyFrames[keyFrm-1]) {
+                  if (props.prop2 == null) sprite.obj[props.prop] = props[keyFrm-1];
+                  else        sprite.obj[props.prop2][props.prop] = props[keyFrm-1];
+        } } } } }
+      } else if (sprite.charAt(0)=='b' && fNew == sprite.frame) eval(sprite.value);
+      if (fNew > tmLn.lastFrame) tmLn.ID = 0;
+  } }
+}
+
+function MM_initTimelines() { //v4.0
+    //MM_initTimelines() Copyright 1997 Macromedia, Inc. All rights reserved.
+    var ns = navigator.appName == "Netscape";
+    var ns4 = (ns && parseInt(navigator.appVersion) == 4);
+    var ns5 = (ns && parseInt(navigator.appVersion) > 4);
+    document.MM_Time = new Array(1);
+    document.MM_Time[0] = new Array(3);
+    document.MM_Time["Timeline1"] = document.MM_Time[0];
+    document.MM_Time[0].MM_Name = "Timeline1";
+    document.MM_Time[0].fps = 20;
+    document.MM_Time[0][0] = new String("behavior");
+    document.MM_Time[0][0].frame = 31;
+    document.MM_Time[0][0].value = "MM_timelineGoto('Timeline1','1')";
+    document.MM_Time[0][1] = new String("sprite");
+    document.MM_Time[0][1].slot = 1;
+    if (ns4)
+        document.MM_Time[0][1].obj = document["Layer1"];
+    else if (ns5)
+        document.MM_Time[0][1].obj = document.getElementById("Layer1");
+    else
+        document.MM_Time[0][1].obj = document.all ? document.all["Layer1"] : null;
+    document.MM_Time[0][1].keyFrames = new Array(1, 4, 10, 17, 23, 30);
+    document.MM_Time[0][1].values = new Array(2);
+    if (ns5)
+        document.MM_Time[0][1].values[0] = new Array("793px", "795px", "797px", "802px", "806px", "809px", "813px", "817px", "822px", "827px", "832px", "838px", "843px", "849px", "855px", "861px", "866px", "871px", "875px", "879px", "883px", "887px", "892px", "897px", "903px", "909px", "915px", "921px", "927px", "933px");
+    else
+        document.MM_Time[0][1].values[0] = new Array(793,795,797,802,806,809,813,817,822,827,832,838,843,849,855,861,866,871,875,879,883,887,892,897,903,909,915,921,927,933);
+    document.MM_Time[0][1].values[0].prop = "left";
+    if (ns5)
+        document.MM_Time[0][1].values[1] = new Array("276px", "280px", "284px", "287px", "286px", "285px", "283px", "281px", "280px", "279px", "280px", "281px", "283px", "284px", "286px", "287px", "288px", "288px", "286px", "284px", "282px", "281px", "280px", "280px", "281px", "281px", "282px", "283px", "284px", "285px");
+    else
+        document.MM_Time[0][1].values[1] = new Array(276,280,284,287,286,285,283,281,280,279,280,281,283,284,286,287,288,288,286,284,282,281,280,280,281,281,282,283,284,285);
+    document.MM_Time[0][1].values[1].prop = "top";
+    if (!ns4) {
+        document.MM_Time[0][1].values[0].prop2 = "style";
+        document.MM_Time[0][1].values[1].prop2 = "style";
+    }
+    document.MM_Time[0][2] = new String("sprite");
+    document.MM_Time[0][2].slot = 2;
+    if (ns4)
+        document.MM_Time[0][2].obj = document["Layer2"];
+    else if (ns5)
+        document.MM_Time[0][2].obj = document.getElementById("Layer2");
+    else
+        document.MM_Time[0][2].obj = document.all ? document.all["Layer2"] : null;
+    document.MM_Time[0][2].keyFrames = new Array(1, 8, 23, 35, 37, 41, 60, 61, 62, 63, 64, 65, 66, 70, 75);
+    document.MM_Time[0][2].values = new Array(2);
+    if (ns5)
+        document.MM_Time[0][2].values[0] = new Array("456px", "459px", "462px", "465px", "468px", "472px", "477px", "483px", "487px", "492px", "496px", "501px", "506px", "512px", "517px", "523px", "529px", "535px", "541px", "546px", "551px", "556px", "561px", "565px", "567px", "569px", "569px", "569px", "569px", "569px", "568px", "568px", "568px", "567px", "567px", "565px", "561px", "560px", "558px", "554px", "546px", "542px", "538px", "534px", "529px", "524px", "519px", "513px", "508px", "502px", "495px", "489px", "484px", "478px", "473px", "468px", "464px", "460px", "456px", "452px", "452px", "451px", "450px", "449px", "447px", "442px", "442px", "442px", "443px", "444px", "445px", "447px", "448px", "450px", "452px");
+    else
+        document.MM_Time[0][2].values[0] = new Array(456,459,462,465,468,472,477,483,487,492,496,501,506,512,517,523,529,535,541,546,551,556,561,565,567,569,569,569,569,569,568,568,568,567,567,565,561,560,558,554,546,542,538,534,529,524,519,513,508,502,495,489,484,478,473,468,464,460,456,452,452,451,450,449,447,442,442,442,443,444,445,447,448,450,452);
+    document.MM_Time[0][2].values[0].prop = "left";
+    if (ns5)
+        document.MM_Time[0][2].values[1] = new Array("340px", "342px", "344px", "346px", "348px", "350px", "351px", "352px", "352px", "352px", "352px", "352px", "351px", "351px", "351px", "350px", "350px", "350px", "350px", "350px", "350px", "351px", "353px", "357px", "362px", "367px", "372px", "377px", "381px", "385px", "389px", "393px", "396px", "399px", "402px", "406px", "406px", "409px", "412px", "413px", "414px", "414px", "414px", "414px", "414px", "414px", "414px", "414px", "414px", "414px", "413px", "413px", "413px", "413px", "413px", "413px", "412px", "412px", "412px", "412px", "411px", "410px", "410px", "409px", "407px", "398px", "392px", "384px", "376px", "368px", "363px", "359px", "354px", "350px", "346px");
+    else
+        document.MM_Time[0][2].values[1] = new Array(340,342,344,346,348,350,351,352,352,352,352,352,351,351,351,350,350,350,350,350,350,351,353,357,362,367,372,377,381,385,389,393,396,399,402,406,406,409,412,413,414,414,414,414,414,414,414,414,414,414,413,413,413,413,413,413,412,412,412,412,411,410,410,409,407,398,392,384,376,368,363,359,354,350,346);
+    document.MM_Time[0][2].values[1].prop = "top";
+    if (!ns4) {
+        document.MM_Time[0][2].values[0].prop2 = "style";
+        document.MM_Time[0][2].values[1].prop2 = "style";
+    }
+    document.MM_Time[0].lastFrame = 75;
+    for (i=0; i<document.MM_Time.length; i++) {
+        document.MM_Time[i].ID = null;
+        document.MM_Time[i].curFrame = 0;
+        document.MM_Time[i].delay = 1000/document.MM_Time[i].fps;
+    }
+}
+//-->
+</script>
+<!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
+</head>
+<body background="imags/X.fw.png" text="#FFFF9D" onLoad="MM_timelinePlay('Timeline1')">
+<div id="Layer1" style="position:absolute; left:793px; top:276px; width:261px; height:69px; z-index:2"><font color="#FF0000" size="4" face="华康少女文字W5(P)"><a href="http://liulanmi.com/" target="_blank">浏览迷</a></font></div>
+<div id="Layer2" style="position:absolute; left:456px; top:340px; width:170px; height:102px; z-index:3"><img src="imags/sediao.fw.png" width="40" height="40" border="1"></div>
+<hr size="1" color="#BEEB9F">
+<table width="800" height="80" align="center" background="imags/DH.fw.png">
+  <tr> 
+    <td colspan="3"><font color="#FFFF9D" size="+5" face="华康少女文字W5(P)"><marquee scrollAmount=5 width=800 behavior=alternate>浏览器介绍</marquee></font></td>
+  </tr>
+</table>
+<table width="800" height="50" align="center">
+  <tr> 
+    <td width="100" height="50" rowspan="2"><a href="index.htm" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image1','','imags/2.fw.png',1)"><img src="imags/1.fw.png" name="Image1" width="100" height="55" border="0"></a></td>
+    <td width="350" height="25"><a href="dt.htm" target="_blank" onMouseOver="MM_swapImage('Image2','','imags/A2.fw.png',1)" onMouseOut="MM_swapImgRestore()"><img src="imags/A1.fw.png" name="Image2" width="350" height="25" border="0"></a></td>
+    <td width="350" height="25"><a href="test.htm" target="_blank" onMouseOver="MM_swapImage('Image6','','imags/C1.fw%20(2).png',1)" onMouseOut="MM_swapImgRestore()"><img src="imags/C1.fw%20(1).png" name="Image6" width="350" height="25" border="0"></a></td>
+  </tr>
+  <tr> 
+    <td width="350" height="25"><a href="ph.htm" target="_blank" onMouseOver="MM_swapImage('Image3','','imags/B2.fw.png',1)" onMouseOut="MM_swapImgRestore()"><img src="imags/B1.fw.png" name="Image3" width="350" height="25" border="0"></a></td>
+    <td width="350" height="25"><a href="gy.htm" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image5','','imags/D2.fw%20(2).png',1)"><img src="imags/D2.fw%20(1).png" name="Image5" width="350" height="25" border="0"></a></td>
+  </tr>
+</table>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<style>
+body,td { font-size:12px; font-family:华康少女文字W5(P)}
+a:link {  color:#FFFF9D; text-decoration: none}
+a:visited {  color:#FFFF9D; text-decoration: none}
+a:hover {  color:#FF6138; text-decoration: none}
+table {  border: #000000; border-style: solid; border-top-width:0px; border-right-width: 0px; border-bottom-width:0px; border-left-width: 0px}
+</style>
+<script language="JavaScript">
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+function MM_findObj(n, d) { //v4.0
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && document.getElementById) x=document.getElementById(n); return x;
+}
+function MM_showHideLayers() { //v3.0
+  var i,p,v,obj,args=MM_showHideLayers.arguments;
+  for (i=0; i<(args.length-2); i+=3) if ((obj=MM_findObj(args[i]))!=null) { v=args[i+2];
+    if (obj.style) { obj=obj.style; v=(v=='show')?'visible':(v='hide')?'hidden':v; }
+    obj.visibility=v; }
+}
+</script>
+<div id="title" style="position:absolute; left:275px; top:156px; width:800px; height:20px; z-index:1; background-color: #0066CC; layer-background-color: #0066CC; border: 1px none #000000;"> 
+  <table width="800" cellspacing="0" cellpadding="2">
+    <tr> 
+      <td width="120" onMouseOver="MM_showHideLayers('menu1','','show')" onMouseOut="MM_showHideLayers('menu1','','hide')"><b><font color="#FFFF9D" size="3"><a href="#">◤<font face="华康少女文字W5(P)">分类目录</font></a></font></b></td>
+    </tr>
+  </table>
+</div>
+<div id="menu1" style="position:absolute; left:275px; top:175px; width:100px; height:73px; z-index:1; visibility: hidden; background-color: #0066FF; layer-background-color: #0066FF; border: 1px none #000000;" onMouseOver="MM_showHideLayers('menu1','','show')" onMouseOut="MM_showHideLayers('menu1','','hide')"> 
+  <table width="100%" cellspacing="0" cellpadding="2" height="80">
+    <tr> 
+      <td> <div align="center"><font size="3" face="华康少女文字W5(P)"> <a href="sjllq.htm"> 
+          手机浏览器</a></font> </div></td>
+    </tr>
+    <tr> 
+      <td><div align="center"><font size="3" face="华康少女文字W5(P)"><a href="pcllq.htm">电脑浏览器 
+          </a></font></div></td>
+    </tr>
+  </table>
+</div>
+<p align="center"></p>
+<div align="center">
+  <table width="800" height="90" align="center">
+    <tr> 
+      <td height="90" colspan="3">
+<div align="right"><br>
+          <font size="5" face="华康少女文字W5(P)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本网页上的资料均参考<img src="imags/34.JPG" width="283" height="84"></font></div></td>
+    </tr>
+  </table>
+</div>
+<table width="800" height="200" align="center">
+  <tr> 
+    <td colspan="3" valign="top"><p align="right"><font size="4" face="Times New Roman, Times, serif"> 
+        </font></p>
+      <br>
+      <table width="75%" align="center">
+        <tr> 
+          <td colspan="3"><font size="4" face="Arial, Helvetica, sans-serif"><br>
+            网站主题《浏览器介绍》、主要栏目——首页.动态.评测.排行.关于<br>
+            主色调： </font></td>
+        </tr>
+      </table>
+      <p align="right"><font size="+7" face="Windsong">logo</font><font size="4" face="Times New Roman, Times, serif">处理、设计、作图、排版：<font size="3" face="Arial, Helvetica, sans-serif">Zsq1213</font></font></p>
+      <p align="right"><font size="4" face="Arial, Helvetica, sans-serif">补充说明————网页另外用了两种字体：<font face="华康少女文字W5(P)">华康少女</font>、<font size="7" face="Windsong">Windsong</font></font></p></td>
+  </tr>
+</table>
+<p align="center">&nbsp;</p>
+</body>
+</html>
+<p onMouseOver="MM_showHideLayers('Layer1','','hide')" onfocusout="MM_showHideLayers('title','','show')">&nbsp;</p>
+
